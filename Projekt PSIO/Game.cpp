@@ -7,6 +7,8 @@
 #include <sstream>
 #define M_PI acos(-1.0)
 
+
+
 Game::Game() : window(sf::VideoMode(1900, 1100), "Archer Game", sf::Style::Close | sf::Style::Titlebar), isPaused(false) {
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
     sf::Vector2u windowSize(desktopMode.width, desktopMode.height);
@@ -14,9 +16,8 @@ Game::Game() : window(sf::VideoMode(1900, 1100), "Archer Game", sf::Style::Close
     window.setPosition(sf::Vector2i(0, 0));
     srand(time(nullptr));
     initializeEnemies();
-    powerUp = PowerUp(rand() % 1900, rand() % 900, rand() % 3);
+    generatePowerUp();
 
-    // Inicjalizacja czcionki i tekstu
     if (!font.loadFromFile("arial.ttf")) {
         std::cerr << "Error loading font\n";
         return;
@@ -122,7 +123,7 @@ void Game::update() {
 void Game::generatePowerUp() {
     float posX = rand() % 1900;
     float posY = rand() % 900;
-    int type = rand() % 3;
+    int type = randGen.getRandom();
     powerUp = PowerUp(posX, posY, type);
 }
 
@@ -168,11 +169,12 @@ void Game::render() {
 
 void Game::initializeEnemies() {
     for (int i = 0; i < 10; ++i) {
-        auto enemy = std::make_unique<Enemy>(100, newSpeed, player);
+        auto enemy = std::make_unique<Enemy>(newHealth, newSpeed, player);
         enemy->setPosition(rand() % 1900, rand() % 900);
         enemies.emplace_back(std::move(enemy));
     }
     newSpeed += 0.1;
+    newHealth += 10;
 }
 
 void Game::resetEnemies() {

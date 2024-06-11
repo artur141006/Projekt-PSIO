@@ -8,10 +8,26 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <random>
 
 struct PlayerData {
     std::string name;
     int score;
+};
+
+template<typename T>
+class RandomGenerator {
+public:
+    RandomGenerator(T min, T max) : distribution(min, max) {}
+
+    T getRandom() {
+        return distribution(engine);
+    }
+
+private:
+    std::random_device rd;
+    std::default_random_engine engine{ rd() };
+    std::uniform_int_distribution<T> distribution;
 };
 
 class Game {
@@ -27,6 +43,8 @@ private:
     sf::Clock pauseClock;
     bool isPaused;
     float newSpeed = 0.5;
+    int newHealth = 100;
+    RandomGenerator<int> randGen{ 0, 2 };
 
 public:
     Game();
