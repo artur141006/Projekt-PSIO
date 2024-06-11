@@ -173,8 +173,16 @@ void Game::initializeEnemies() {
         enemy->setPosition(rand() % 1900, rand() % 900);
         enemies.emplace_back(std::move(enemy));
     }
-    newSpeed += 0.1;
-    newHealth += 10;
+    if (newSpeed < 2.5)
+    {
+        newSpeed += 0.1;
+    }
+    
+    if (newHealth < 200)
+    {
+        newHealth += 10;
+    }
+    
 }
 
 void Game::resetEnemies() {
@@ -231,6 +239,8 @@ void Game::gameOver() {
                     saveScores();
                     gameOverWindow.close();
                     player.reset();
+                    newSpeed = 0.5;
+                    newHealth = 100;
                     resetEnemies();
                     isPaused = false;
                     break;

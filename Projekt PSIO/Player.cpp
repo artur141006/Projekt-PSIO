@@ -131,6 +131,9 @@ int Player::getLives() const {
 void Player::reset() {
     lives = 3;
     score = 0;
+    damage = 50;
+    speed = 1.0f;
+    powerLevel = 1;
     sprite.setPosition(950, 550);
     arrows.clear();
 }

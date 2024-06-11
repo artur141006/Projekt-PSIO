@@ -1,5 +1,4 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -41,5 +40,3 @@ public:
     void reset();
     const sf::Sprite& getSprite() const;
 };
-
-#endif

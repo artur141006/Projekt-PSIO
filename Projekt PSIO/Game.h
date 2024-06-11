@@ -1,5 +1,4 @@
-#ifndef GAME_HPP
-#define GAME_HPP
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include "Player.h"
@@ -59,5 +58,3 @@ public:
     void loadScores();
     void saveScores();
 };
-
-#endif
