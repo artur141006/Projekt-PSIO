@@ -7,8 +7,6 @@
 #include <sstream>
 #define M_PI acos(-1.0)
 
-
-
 Game::Game() : window(sf::VideoMode(1900, 1100), "Archer Game", sf::Style::Close | sf::Style::Titlebar), isPaused(false) {
     sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
     sf::Vector2u windowSize(desktopMode.width, desktopMode.height);
@@ -17,7 +15,6 @@ Game::Game() : window(sf::VideoMode(1900, 1100), "Archer Game", sf::Style::Close
     srand(time(nullptr));
     initializeEnemies();
     generatePowerUp();
-
     if (!font.loadFromFile("arial.ttf")) {
         std::cerr << "Error loading font\n"; //obs³uga b³êdów
         return;
@@ -71,7 +68,6 @@ void Game::update() {
         for (auto& enemy : enemies) {
             enemy->update();
         }
-
         enemies.erase(
             std::remove_if(enemies.begin(), enemies.end(),
                 [this](std::unique_ptr<Enemy>& enemy) {
@@ -143,7 +139,6 @@ void Game::render() {
             std::cerr << "Error loading font\n";
             return;
         }
-
         sf::Text pauseText("Paused", font, 50);
         pauseText.setFillColor(sf::Color::White);
         pauseText.setPosition(window.getSize().x / 2 - pauseText.getGlobalBounds().width / 2, window.getSize().y / 2 - 100);
@@ -163,7 +158,6 @@ void Game::render() {
     if (powerUpClock.getElapsedTime().asSeconds() < 2) {
         window.draw(powerUpText);
     }
-
     window.display();
 }
 
@@ -175,7 +169,6 @@ void Game::initializeEnemies() {
     }
     if (newSpeed < 2.5) {newSpeed += 0.1;}
     if (newHealth < 200) {newHealth += 10;}
-    
 }
 
 void Game::resetEnemies() {
@@ -189,17 +182,12 @@ void Game::gameOver() {
         std::cerr << "Error loading font\n";
         return;
     }
-
     loadScores();
-
     sf::RenderWindow gameOverWindow(sf::VideoMode(500, 300), "Game Over");
-
     sf::Text enterNameText("Enter your name:", font, 20);
     enterNameText.setFillColor(sf::Color::White);
     enterNameText.setPosition(50, 150);
-
     std::string playerName;
-
     while (gameOverWindow.isOpen()) {
         sf::Event event;
         while (gameOverWindow.pollEvent(event)) {
@@ -228,7 +216,6 @@ void Game::gameOver() {
                     if (scores.size() > 5) {
                         scores.resize(5);
                     }
-
                     saveScores();
                     gameOverWindow.close();
                     player.reset();
@@ -245,20 +232,16 @@ void Game::gameOver() {
                 return;
             }
         }
-
         sf::Text playerNameText(playerName, font, 20);
         playerNameText.setFillColor(sf::Color::White);
         playerNameText.setPosition(50, 180);
-
         sf::Text scoresText("High Scores:", font, 20);
         scoresText.setFillColor(sf::Color::White);
         scoresText.setPosition(50, 20);
-
         gameOverWindow.clear();
         gameOverWindow.draw(enterNameText);
         gameOverWindow.draw(playerNameText);
         gameOverWindow.draw(scoresText);
-
         for (size_t i = 0; i < std::min(scores.size(), static_cast<size_t>(5)); ++i) {
             std::stringstream ss;
             ss << i + 1 << ". " << scores[i].name << ": " << scores[i].score;
@@ -267,7 +250,6 @@ void Game::gameOver() {
             scoreEntry.setPosition(50, 50 + i * 20);
             gameOverWindow.draw(scoreEntry);
         }
-
         gameOverWindow.display();
     }
 }
@@ -279,7 +261,6 @@ void Game::loadScores() {
         std::cerr << "Error opening scores file\n";
         return;
     }
-
     std::string line;
     while (std::getline(file, line)) {
         std::stringstream ss(line);
@@ -287,7 +268,6 @@ void Game::loadScores() {
         ss >> playerScore.name >> playerScore.score;
         scores.push_back(playerScore);
     }
-
     file.close();
 }
 
@@ -297,10 +277,8 @@ void Game::saveScores() {
         std::cerr << "Error opening scores file\n";
         return;
     }
-
     for (const auto& score : scores) {
         file << score.name << " " << score.score << std::endl;
     }
-
     file.close();
 }

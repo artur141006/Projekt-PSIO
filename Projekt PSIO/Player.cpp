@@ -62,12 +62,10 @@ void Player::draw(sf::RenderWindow& window) {
     livesText.setFillColor(sf::Color::White);
     livesText.setPosition(20, 20);
     window.draw(livesText);
-
     sf::Text scoreText("Score: " + std::to_string(score), font, 20);
     scoreText.setFillColor(sf::Color::White);
     scoreText.setPosition(20, 50);
     window.draw(scoreText);
-
     for (auto& arrow : arrows) {
         arrow.draw(window);
     }
@@ -98,7 +96,6 @@ void Player::checkArrowCollision(std::unique_ptr<Enemy>& enemy, bool& collidedWi
             ++it;
         }
     }
-
     if (getSprite().getGlobalBounds().intersects(enemy->getSprite().getGlobalBounds())) {
         decreaseLives();
         collidedWithPlayer = true;

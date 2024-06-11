@@ -12,6 +12,5 @@ public:
     virtual void draw(sf::RenderWindow& window) {
         window.draw(sprite);
     }
-
     virtual ~Entity() {}
 };

@@ -22,7 +22,7 @@ public:
     void setPosition(float x, float y);
     void draw(sf::RenderWindow& window) override;
     const sf::Sprite& getSprite() const;
-    Enemy& operator=(const Enemy& other) {
+    Enemy& operator=(const Enemy& other) { //przeci¹¿enie operatora
         if (this != &other) {
             health = other.health;
             speed = other.speed;
