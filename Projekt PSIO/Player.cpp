@@ -140,7 +140,7 @@ void Player::increaseLives(int numLives) {
 }
 
 void Player::increasePowerLevel(int numLevels) {
-    damage += (numLevels * 50);
+    damage += (numLevels * 20);
 }
 
 void Player::increaseSpeedMultiplier(float multiplier) {

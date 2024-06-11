@@ -15,6 +15,15 @@ Game::Game() : window(sf::VideoMode(1900, 1100), "Archer Game", sf::Style::Close
     srand(time(nullptr));
     initializeEnemies();
     powerUp = PowerUp(rand() % 1900, rand() % 900, rand() % 3);
+
+    // Inicjalizacja czcionki i tekstu
+    if (!font.loadFromFile("arial.ttf")) {
+        std::cerr << "Error loading font\n";
+        return;
+    }
+    powerUpText.setFont(font);
+    powerUpText.setCharacterSize(24);
+    powerUpText.setFillColor(sf::Color::Red);
 }
 
 void Game::run() {
@@ -89,33 +98,31 @@ void Game::update() {
     }
     if (player.getSprite().getGlobalBounds().intersects(powerUp.getSprite().getGlobalBounds())) {
         int type = powerUp.getType();
+        std::string powerUpMessage;
+
         if (type == 0) {
-            // Obs³uga ulepszenia dla ¿ycia
             player.increaseLives(1);
+            powerUpMessage = "Life Up!";
         }
         else if (type == 1) {
-            // Obs³uga ulepszenia dla poziomu mocy
             player.increasePowerLevel(1);
+            powerUpMessage = "Power Up!";
         }
         else if (type == 2) {
-            // Obs³uga ulepszenia dla prêdkoœci
             player.increaseSpeedMultiplier(0.5f);
+            powerUpMessage = "Speed Up!";
         }
-
-        // Usuniêcie ulepszenia z gry
+        powerUpText.setString(powerUpMessage);
+        powerUpText.setPosition(window.getSize().x / 2 - powerUpText.getGlobalBounds().width / 2, window.getSize().y / 2 - powerUpText.getGlobalBounds().height / 2);
+        powerUpClock.restart();
         powerUp.reset();
     }
 }
 
 void Game::generatePowerUp() {
-    // Losowa pozycja na mapie
     float posX = rand() % 1900;
     float posY = rand() % 900;
-
-    // Losowy typ ulepszenia
-    int type = rand() % 3; // Za³ó¿my, ¿e mamy trzy typy ulepszeñ
-
-    // Tworzenie nowego ulepszenia
+    int type = rand() % 3;
     powerUp = PowerUp(posX, posY, type);
 }
 
@@ -152,13 +159,20 @@ void Game::render() {
         window.draw(exitText);
     }
 
+    if (powerUpClock.getElapsedTime().asSeconds() < 2) {
+        window.draw(powerUpText);
+    }
+
     window.display();
 }
 
 void Game::initializeEnemies() {
     for (int i = 0; i < 10; ++i) {
-        enemies.emplace_back(std::make_unique<Enemy>(100, 1.0f, player));
+        auto enemy = std::make_unique<Enemy>(100, newSpeed, player);
+        enemy->setPosition(rand() % 1900, rand() % 900);
+        enemies.emplace_back(std::move(enemy));
     }
+    newSpeed += 0.1;
 }
 
 void Game::resetEnemies() {
@@ -188,7 +202,8 @@ void Game::gameOver() {
         while (gameOverWindow.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 gameOverWindow.close();
-                break;
+                window.close();
+                return;
             }
             if (event.type == sf::Event::TextEntered) {
                 if (event.text.unicode < 128 && event.text.unicode != '\b' && event.text.unicode != 13) {
@@ -218,6 +233,11 @@ void Game::gameOver() {
                     isPaused = false;
                     break;
                 }
+            }
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+                gameOverWindow.close();
+                window.close();
+                return;
             }
         }
 

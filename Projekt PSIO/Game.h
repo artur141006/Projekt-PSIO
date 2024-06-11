@@ -19,10 +19,14 @@ private:
     sf::RenderWindow window;
     Player player;
     PowerUp powerUp;
+    sf::Font font;
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<PlayerData> scores;
+    sf::Text powerUpText;
+    sf::Clock powerUpClock;
     sf::Clock pauseClock;
     bool isPaused;
+    float newSpeed = 0.5;
 
 public:
     Game();
