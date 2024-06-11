@@ -173,15 +173,8 @@ void Game::initializeEnemies() {
         enemy->setPosition(rand() % 1900, rand() % 900);
         enemies.emplace_back(std::move(enemy));
     }
-    if (newSpeed < 2.5)
-    {
-        newSpeed += 0.1;
-    }
-    
-    if (newHealth < 200)
-    {
-        newHealth += 10;
-    }
+    if (newSpeed < 2.5) {newSpeed += 0.1;}
+    if (newHealth < 200) {newHealth += 10;}
     
 }
 
@@ -229,7 +222,7 @@ void Game::gameOver() {
                     playerScore.name = playerName;
                     playerScore.score = player.getScore();
                     scores.push_back(playerScore);
-                    std::sort(scores.begin(), scores.end(), [](const PlayerData& lhs, const PlayerData& rhs) {
+                    std::sort(scores.begin(), scores.end(), [](const PlayerData& lhs, const PlayerData& rhs) { //sortowanie wyników
                         return lhs.score > rhs.score;
                         });
                     if (scores.size() > 5) {

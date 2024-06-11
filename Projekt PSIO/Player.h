@@ -40,4 +40,5 @@ public:
     void increaseSpeedMultiplier(float multiplier);
     void reset();
     const sf::Sprite& getSprite() const;
+    ~Player() {};
 };

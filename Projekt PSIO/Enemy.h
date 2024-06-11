@@ -35,4 +35,5 @@ public:
     bool operator==(const Enemy& other) const {
         return this == &other;
     }
+    ~Enemy() {};
 };
