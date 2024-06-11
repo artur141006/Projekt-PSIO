@@ -2,9 +2,10 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Entity.h"
 #include "Player.h"
 
-class Enemy {
+class Enemy : public Entity {
 private:
     int health;
     float speed;
@@ -14,12 +15,12 @@ private:
 
 public:
     Enemy(int initHealth, float initSpeed, Player& playerRef);
-    void update();
+    void update() override;
     void takeDamage(int damage);
     int getHealth() const;
     void setSpeed(float newSpeed);
     void setPosition(float x, float y);
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window) override;
     const sf::Sprite& getSprite() const;
     Enemy& operator=(const Enemy& other) {
         if (this != &other) {

@@ -19,7 +19,7 @@ Game::Game() : window(sf::VideoMode(1900, 1100), "Archer Game", sf::Style::Close
     generatePowerUp();
 
     if (!font.loadFromFile("arial.ttf")) {
-        std::cerr << "Error loading font\n";
+        std::cerr << "Error loading font\n"; //obs³uga b³êdów
         return;
     }
     powerUpText.setFont(font);
@@ -169,7 +169,7 @@ void Game::render() {
 
 void Game::initializeEnemies() {
     for (int i = 0; i < 10; ++i) {
-        auto enemy = std::make_unique<Enemy>(newHealth, newSpeed, player);
+        auto enemy = std::make_unique<Enemy>(newHealth, newSpeed, player); //dynamiczne tworzenie
         enemy->setPosition(rand() % 1900, rand() % 900);
         enemies.emplace_back(std::move(enemy));
     }
@@ -278,7 +278,7 @@ void Game::gameOver() {
         gameOverWindow.display();
     }
 }
-
+//odczyt i zapis do pliku
 void Game::loadScores() {
     scores.clear();
     std::ifstream file("scores.txt");

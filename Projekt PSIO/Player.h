@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
+#include "Entity.h"
 #include "Arrow.h"
 #include "PowerUp.h"
 

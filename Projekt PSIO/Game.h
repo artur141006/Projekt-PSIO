@@ -14,7 +14,7 @@ struct PlayerData {
     int score;
 };
 
-template<typename T>
+template<typename T> //klasa generyczna
 class RandomGenerator {
 public:
     RandomGenerator(T min, T max) : distribution(min, max) {}

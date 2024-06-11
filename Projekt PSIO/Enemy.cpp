@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "Entity.h"
 
 Enemy::Enemy(int initHealth, float initSpeed, Player& playerRef) : health(initHealth), speed(initSpeed), player(playerRef) {
     if (!texture.loadFromFile("enemy.png")) {

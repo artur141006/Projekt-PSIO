@@ -8,7 +8,7 @@ protected:
 
 public:
     sf::Sprite sprite;
-    virtual void update() = 0;
+    virtual void update() = 0; //metoda wirtualna
     virtual void draw(sf::RenderWindow& window) {
         window.draw(sprite);
     }
